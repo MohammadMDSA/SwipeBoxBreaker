@@ -10,6 +10,5 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<canvas:CanvasAnimatedControl x:Name="GameBoard" PointerMoved="GameBoard_PointerMoved" PointerPressed="GameBoard_PointerPressed" PointerReleased="GameBoard_PointerReleased" Draw="GameBoard_Draw"/>
-		<canvas:CanvasAnimatedControl x:Name="GameBoard_Copy" PointerMoved="GameBoard_PointerMoved" PointerPressed="GameBoard_PointerPressed" PointerReleased="GameBoard_PointerReleased" Draw="GameBoard_Draw" Margin="0,-1,0,1"/>
 	</Grid>
 </Page>

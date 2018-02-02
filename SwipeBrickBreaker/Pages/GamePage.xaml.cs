@@ -26,6 +26,7 @@ namespace SwipeBrickBreaker.Pages
 	public sealed partial class GamePage : Page
 	{
 		public Mouse Mouse { get; }
+		int temp = 0;
 
 		public GamePage()
 		{
@@ -40,20 +41,28 @@ namespace SwipeBrickBreaker.Pages
 
 		private void GameBoard_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
-
+			temp++;
+			Mouse.Press();
 		}
 
 		private void GameBoard_PointerReleased(object sender, PointerRoutedEventArgs e)
 		{
-
+			Mouse.Release();
 		}
 
 		private void GameBoard_Draw(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
 		{
 			args.DrawingSession.Clear(Colors.White);
 			args.DrawingSession.DrawLine(0, 0, 1000, 1000, Colors.Red);
-			args.DrawingSession.DrawCircle(Mouse.GetPosition, 20, Colors.Red);
-			args.DrawingSession.DrawText(Mouse.GetPosition.X + " " + Mouse.GetPosition.Y, 100, 1000, Colors.Red);
+			if (!Mouse.Dragging)
+				args.DrawingSession.DrawCircle(Mouse.GetPosition, 20, Colors.Red);
+			else
+			{
+				args.DrawingSession.FillCircle(Mouse.GetPosition, 20, Colors.Red);
+				args.DrawingSession.DrawLine(Mouse.Drager.StartPositionVector, Mouse.GetPosition, Colors.Red);
+				args.DrawingSession.DrawText(Mouse.Drager.StartPositionVector.X + " " + Mouse.Drager.StartPositionVector.Y + " " + Mouse.Drager.CurentPositionVector.X + " " + Mouse.Drager.CurentPositionVector.Y + " " + temp, 0, 0, Colors.Black);
+			}
+			args.DrawingSession.DrawText(Mouse.Position.X + " " + Mouse.Position.Y + " " + temp, 0, 20, Colors.Black);
 		}
 	}
 }

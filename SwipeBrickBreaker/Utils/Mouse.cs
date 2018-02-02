@@ -10,22 +10,26 @@ namespace SwipeBrickBreaker.Utils
 {
 	public class Mouse
 	{
-		private Point Position;
+		public Point Position { get => _Position; }
+		private Point _Position;
+		public bool Dragging { get; private set; }
+		public Drager Drager { get; private set; }
 		public Vector2 GetPosition
 		{
-			get { return new Vector2((float)Position.X, (float)Position.Y); }
+			get { return new Vector2((float)_Position.X, (float)_Position.Y); }
 		}
-
 
 		public Mouse()
 		{
-			Position.X = Position.Y = 0;
+			_Position.X = _Position.Y = 0;
 		}
 
 		public void SetPosition(double x, double y)
 		{
-			Position.X = x;
-			Position.Y = y;
+			_Position.X = x;
+			_Position.Y = y;
+			if (Dragging)
+				Drager.SetCurentPosition(x, y);
 		}
 
 		public void SetPosition(Vector2 vector)
@@ -37,19 +41,38 @@ namespace SwipeBrickBreaker.Utils
 		{
 			SetPosition(point.X, point.Y);
 		}
+
+		public void Press()
+		{
+			this.Dragging = true;
+			Drager = new Drager(this.Position);
+		}
+
+		public void Release()
+		{
+			this.Dragging = false;
+			this.Drager = default(Drager);
+		}
 	}
 
 	public struct Drager
 	{
 		public readonly Point StartPosition;
-		public Point CurentPosition { get; }
+		public Point CurentPosition { get => _CurentPosition; }
+		private Point _CurentPosition;
+		public Vector2 CurentPositionVector { get => _CurentPosition.ToVector2(); }
+		public Vector2 StartPositionVector { get => StartPosition.ToVector2(); }
 
 		public Drager(Point start)
 		{
 			this.StartPosition = new Point(start.X, start.Y);
-			this.CurentPosition = new Point(start.X, start.Y);
+			this._CurentPosition = new Point(start.X, start.Y);
 		}
 
-		//public Drager
+		public void SetCurentPosition(double x, double y)
+		{
+			this._CurentPosition.X = x;
+			this._CurentPosition.Y = y;
+		}
 	}
 }
